@@ -2,7 +2,7 @@ import pytest
 import pytest_asyncio
 from tortoise import Tortoise
 
-from server.server import app
+from app.server.server import app
 from tests.utils import client_manager, ClientManagerType
 
 

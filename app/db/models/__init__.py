@@ -1,6 +1,8 @@
-from db.models.sample_model import SampleModel
+from db.models.category import Category
+from db.models.prompt import Prompt
 
 
 __all__ = [
-    'SampleModel',
+    'Category',
+    'Prompt',
 ]

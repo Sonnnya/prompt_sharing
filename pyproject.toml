@@ -11,14 +11,18 @@ python = ">=3.11, <4.0"
 fastapi = {extras = ["standard"], version = "^0.115"}
 uvicorn = {extras = ["standard"], version = "^0.34"}
 django-split-settings = "^1.1.0"
-tortoise-orm = {extras = ["asyncpg"], version = "^0.24"}
+tortoise-orm = "^0.25.0"
 aerich = "^0.8"
 httpx = "^0.28"
-pydantic-settings = "^2.8"
 sentry-sdk = "^2.25"
 pydantic-i18n = "^0.4.5"
 fastapi-babel = "^1"
 fastapi-pagination = "^0.12"
+sqlalchemy = "^2.0.40"
+asyncpg = "^0.30.0"
+pydantic = "^2.11.3"
+pydantic-settings = "^2.8.1"
+starlette = "^0.46.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.5.4"
