@@ -108,4 +108,6 @@ def create_app() -> FastAPI:
     _init_exception_handlers(_app)
     return _app
 
+
 app = create_app()
+add_pagination(app)

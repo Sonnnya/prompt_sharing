@@ -3,14 +3,15 @@ from fastapi import APIRouter, Depends
 from models.prompts import PromptPydantic, PromptInPydantic
 from services.prompts import list_all_prompts, get_single_prompt, add_prompt, PromptException, rate_prompt
 from starlette.responses import Response
+from fastapi_pagination.iterables import LimitOffsetPage
 
 router = APIRouter()
 
 
 @router.get('/')
-async def list_prompts() -> dict[str, list[PromptPydantic]]:
+async def list_prompts() -> LimitOffsetPage[PromptPydantic]:
     result = await list_all_prompts()
-    return {"items": result}
+    return result
 
 
 @router.get('/{prompt_id}', responses={404: {'description': 'prompt not found'}})

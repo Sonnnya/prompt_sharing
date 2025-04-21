@@ -2,6 +2,7 @@ from models.prompts import PromptPydantic, PromptInPydantic
 from db.models.prompt import Prompt
 from tortoise.exceptions import DoesNotExist
 from tortoise.expressions import F
+from fastapi_pagination.ext.tortoise import paginate
 
 
 class PromptException(BaseException):
@@ -9,7 +10,7 @@ class PromptException(BaseException):
 
 
 async def list_all_prompts() -> list[PromptPydantic]:  # type: ignore
-    return await PromptPydantic.from_queryset(
+    return await paginate(
         Prompt.all().prefetch_related('categories')
     )
 
