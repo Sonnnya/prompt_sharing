@@ -95,41 +95,42 @@ async def test_rate_prompt(
     assert data["rating"] == 1
 
 
-# @pytest.mark.asyncio
-# async def test_filter_prompts(
-#     async_client,
-# ):
-#     # Создаем несколько промптов для теста
-#     await Prompt.create(
-#         title="First Prompt", description="First prompt description", rating=3
-#     )
-#     await Prompt.create(
-#         title="Second Prompt", description="Second prompt description", rating=4
-#     )
+@pytest.mark.asyncio
+async def test_filter_prompts(
+    async_client,
+):
+    # Создаем несколько промптов для теста
+    await Prompt.create(
+        title="First Prompt", description="First prompt description", rating=3
+    )
+    await Prompt.create(
+        title="Second Prompt", description="Second prompt description", rating=4
+    )
 
-#     # Проверяем фильтрацию по категории
-#     response = await async_client.get("/api/prompts/?category_id=1")
-#     assert response.status_code == 200
-#     data = response.json()
-#     assert isinstance(data['items'], list)
-#     assert len(data['items']) == 0
+    # Проверяем фильтрацию по категории
+    response = await async_client.get("/api/prompts/?category_id=1")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data['items'], list)
+    assert len(data['items']) == 0
 
-#     # Проверяем поиск по названию и описанию
-#     response = await async_client.get("/api/prompts/?search=First")
-#     assert response.status_code == 200
-#     data = response.json()
-#     assert isinstance(data['items'], list)
-#     assert len(data['items']) == 1
-#     assert data['items'][0]["title"] == "First Prompt"
+    # Проверяем поиск по названию и описанию
+    response = await async_client.get("/api/prompts/?search=First")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data['items'], list)
+    logger.info(data['items'])
+    assert len(data['items']) == 1
+    assert data['items'][0]["title"] == "First Prompt"
 
-#     # Проверяем сортировку по рейтингу
-#     response = await async_client.get("/api/prompts/?sort_by_rating=desc")
-#     assert response.status_code == 200
-#     data = response.json()
-#     assert isinstance(data['items'], list)
-#     assert len(data['items']) == 2
-#     assert data['items'][0]["title"] == "Second Prompt"
-#     assert data['items'][1]["title"] == "First Prompt"
+    # Проверяем сортировку по рейтингу
+    response = await async_client.get("/api/prompts/?sort_by_rating=desc")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data['items'], list)
+    assert len(data['items']) == 2
+    assert data['items'][0]["title"] == "Second Prompt"
+    assert data['items'][1]["title"] == "First Prompt"
 
 
 @pytest.mark.asyncio
