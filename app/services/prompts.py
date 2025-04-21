@@ -1,18 +1,34 @@
 from models.prompts import PromptPydantic, PromptInPydantic
 from db.models.prompt import Prompt
 from tortoise.exceptions import DoesNotExist
-from tortoise.expressions import F
+from tortoise.expressions import F, Q
 from fastapi_pagination.ext.tortoise import paginate
+from typing import Optional, Literal
+from fastapi_pagination.iterables import LimitOffsetPage
 
 
 class PromptException(BaseException):
     pass
 
 
-async def list_all_prompts() -> list[PromptPydantic]:  # type: ignore
-    return await paginate(
-        Prompt.all().prefetch_related('categories')
-    )
+async def list_all_prompts(
+        category_id: Optional[int] = None,
+        search: Optional[str] = None,
+        sort_by_rating: Literal['desc', ''] = '',
+) -> LimitOffsetPage[PromptPydantic]:  # type: ignore
+    query = Prompt.all().prefetch_related('categories')
+
+    if category_id:
+        query = query.filter(categories__id=category_id)
+
+    if search:
+        query = query.filter(Q(title__icontains=search) |
+                             Q(description__icontains=search))
+
+    if sort_by_rating:
+        query = query.order_by(f'{'-' if sort_by_rating == 'desc' else ''}rating')
+
+    return await paginate(query)
 
 
 async def get_single_prompt(prompt_id: int) -> PromptPydantic:  # type: ignore

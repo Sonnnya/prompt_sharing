@@ -4,13 +4,21 @@ from models.prompts import PromptPydantic, PromptInPydantic
 from services.prompts import list_all_prompts, get_single_prompt, add_prompt, PromptException, rate_prompt
 from starlette.responses import Response
 from fastapi_pagination.iterables import LimitOffsetPage
-
+from typing import Optional, Literal
+from fastapi import Query
 router = APIRouter()
 
 
 @router.get('/')
-async def list_prompts() -> LimitOffsetPage[PromptPydantic]:
-    result = await list_all_prompts()
+async def list_prompts(category_id: Optional[int] = Query(
+        None,
+    description="ID категории для фильтрации",
+    ),
+    search: Optional[str] = Query(None,
+                                  description="Поиск по названию или описанию"),
+    sort_by_rating: Literal['desc', ''] = Query(None,
+                                                description="Сортировка по рейтингу ('asc' или 'desc')")) -> LimitOffsetPage[PromptPydantic]:
+    result = await list_all_prompts(category_id, search, sort_by_rating)
     return result
 
 
