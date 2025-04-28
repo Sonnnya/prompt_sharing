@@ -26,7 +26,8 @@ async def list_all_prompts(
                              Q(description__icontains=search))
 
     if sort_by_rating:
-        query = query.order_by(f'{'-' if sort_by_rating == 'desc' else ''}rating')
+        query = query.order_by(
+            f'{'-' if sort_by_rating == 'desc' else ''}rating')
 
     return await paginate(query)
 

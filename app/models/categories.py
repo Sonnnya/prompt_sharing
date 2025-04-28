@@ -6,3 +6,9 @@ CatPydantic = pydantic_model_creator(
     Category,
     exclude=('updated_at'),
 )
+
+CatInPydantic = pydantic_model_creator(
+    Category,
+    exclude=('updated_at'),
+    exclude_readonly=True
+)

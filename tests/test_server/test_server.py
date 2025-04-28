@@ -149,3 +149,20 @@ async def test_list_all_categories(
     assert isinstance(data["items"], list)
     assert len(data["items"]) == 1
     assert data["items"][0]["name"] == "First Category"
+
+
+@pytest.mark.asyncio
+async def test_create_categories(
+    async_client,
+):
+
+    response = await async_client.post(  # Асинхронный вызов
+        "/api/categories/",
+        json={
+            "name": "Test",
+        },
+    )
+    logger.info(response)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == "Test"
